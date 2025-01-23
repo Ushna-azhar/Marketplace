@@ -66,35 +66,26 @@ export default function Navbar() {
     <div>
       <header className="bg-black text-white py-4 shadow-md relative z-30">
         <div className="container mx-auto flex justify-between items-center px-4">
-          <div className="text-2xl font-bold">Shoezshop</div>
-
-          <div className="relative">
-            <button onClick={() => setIsLangMenuOpen(!isLangMenuOpen)} className="text-white focus:outline-none">
-              <FaGlobe size={20} />
-            </button>
-            {isLangMenuOpen && (
-              <div className="absolute right-0 bg-gray-900 text-white rounded-lg shadow-md mt-2 w-40 z-40">
-                <select value={language} onChange={handleLanguageChange} className="w-full bg-gray-900 text-white p-2 rounded-lg">
-                  <option value="en">English</option>
-                  <option value="ur">اردو</option>
-                  <option value="ar">عربى</option>
-                </select>
-              </div>
-            )}
+          <div className="text-2xl font-bold flex items-center gap-4">
+            <div>Shoezshop</div>
           </div>
 
-          <button onClick={() => setIsMenuOpen(!isMenuOpen)} className="lg:hidden text-white focus:outline-none">
-            {isMenuOpen ? <FaTimes size={20} /> : <FaBars size={20} />}
-          </button>
+          <div className="flex items-center gap-4">
+            <div className="relative">
+              <button onClick={() => setIsLangMenuOpen(!isLangMenuOpen)} className="text-white focus:outline-none">
+                <FaGlobe size={20} />
+              </button>
+              {isLangMenuOpen && (
+                <div className="absolute right-0 bg-gray-900 text-white rounded-lg shadow-md mt-2 w-40 z-40">
+                  <select value={language} onChange={handleLanguageChange} className="w-full bg-gray-900 text-white p-2 rounded-lg">
+                    <option value="en">English</option>
+                    <option value="ur">اردو</option>
+                    <option value="ar">عربى</option>
+                  </select>
+                </div>
+              )}
+            </div>
 
-          <nav className="hidden lg:flex space-x-6">
-            <Link href="/">{translate('home')}</Link>
-            <Link href="/product">{translate('products')}</Link>
-            <Link href="#about">{translate('about')}</Link>
-            <Link href="#contact">{translate('contact')}</Link>
-          </nav>
-
-          <div className="flex space-x-6 items-center">
             <div className="relative">
               <button onClick={() => setIsSearchOpen(!isSearchOpen)} className="text-white">
                 <FaSearch size={20} />
@@ -112,24 +103,37 @@ export default function Navbar() {
               )}
             </div>
 
-            <Link href="/cart">
-              <FaShoppingCart size={20} className="hidden lg:block text-white hover:text-gray-300 transition" />
-            </Link>
-
-            <Link href="/wishlist">
-              <FaHeart size={20} className="hidden lg:block text-white hover:text-gray-300 transition" />
-            </Link>
-
-            <Link href="/admin">
-              <FaUser size={20} className="text-white hover:text-gray-300 transition" />
-            </Link>
-
-            <Link href="/register">
-              <FaUserPlus size={20} className="text-white hover:text-gray-300 transition" />
-            </Link>
+            <button onClick={() => setIsMenuOpen(!isMenuOpen)} className="lg:hidden text-white focus:outline-none">
+              {isMenuOpen ? <FaTimes size={20} /> : <FaBars size={20} />}
+            </button>
           </div>
         </div>
       </header>
+
+      <nav className="hidden lg:flex space-x-6">
+        <Link href="/">{translate('home')}</Link>
+        <Link href="/product">{translate('products')}</Link>
+        <Link href="#about">{translate('about')}</Link>
+        <Link href="#contact">{translate('contact')}</Link>
+      </nav>
+
+      <div className="flex items-center gap-4">
+        <Link href="/admin">
+          <FaUser size={20} className="text-white hover:text-gray-300 transition" />
+        </Link>
+
+        <Link href="/register">
+          <FaUserPlus size={20} className="text-white hover:text-gray-300 transition" />
+        </Link>
+
+        <Link href="/cart" className="hidden lg:block text-white hover:text-gray-300 transition">
+          <FaShoppingCart size={20} />
+        </Link>
+
+        <Link href="/wishlist" className="hidden lg:block text-white hover:text-gray-300 transition">
+          <FaHeart size={20} />
+        </Link>
+      </div>
 
       {isMenuOpen && (
         <div className="lg:hidden fixed inset-0 bg-black bg-opacity-50 z-20 flex flex-col items-center pt-20">
