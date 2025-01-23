@@ -19,8 +19,7 @@ const fetchProducts = async () => {
     return [];
   }
   const data = await response.json();
-  console.log(data); // Check the shape of the data here
-  return Array.isArray(data) ? data : []; // Ensure it's always an array
+  return Array.isArray(data) ? data : [];
 };
 
 export default function Navbar() {
@@ -43,7 +42,7 @@ export default function Navbar() {
   }, []);
 
   const handleLanguageChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    setLanguage(e.target.value as 'en' | 'ar' | 'ur'); // Removed 'hi'
+    setLanguage(e.target.value as 'en' | 'ur' | 'ar');
   };
 
   const handleSearch = useCallback(() => {
@@ -68,7 +67,7 @@ export default function Navbar() {
       <header className="bg-black text-white py-4 shadow-md relative z-30">
         <div className="container mx-auto flex justify-between items-center px-4">
           <div className="text-2xl font-bold">Shoezshop</div>
-          
+
           <div className="relative">
             <button onClick={() => setIsLangMenuOpen(!isLangMenuOpen)} className="text-white focus:outline-none">
               <FaGlobe size={20} />
@@ -77,8 +76,8 @@ export default function Navbar() {
               <div className="absolute right-0 bg-gray-900 text-white rounded-lg shadow-md mt-2 w-40 z-40">
                 <select value={language} onChange={handleLanguageChange} className="w-full bg-gray-900 text-white p-2 rounded-lg">
                   <option value="en">English</option>
-                  <option value="ar">Arabic (عربي)</option>
-                  <option value="ur">Urdu (اردو)</option>
+                  <option value="ur">اردو</option>
+                  <option value="ar">عربى</option>
                 </select>
               </div>
             )}
@@ -134,43 +133,25 @@ export default function Navbar() {
 
       {isMenuOpen && (
         <div className="lg:hidden fixed inset-0 bg-black bg-opacity-50 z-20">
-          <div className="flex justify-end p-4">
-            <button onClick={() => setIsMenuOpen(false)} className="text-white">
-              <FaTimes size={25} />
-            </button>
-          </div>
-          <nav className="flex flex-col items-center text-white space-y-6 bg-black p-8">
-            <Link href="/">{translate('home')}</Link>
-            <Link href="/product">{translate('products')}</Link>
-            <Link href="#about">{translate('about')}</Link>
-            <Link href="#contact">{translate('contact')}</Link>
-            <Link href="/cart">{translate('cart')}</Link>
-            <Link href="/wishlist">{translate('wishlist')}</Link>
-          </nav>
+          {/* Menu items here */}
         </div>
       )}
 
-      {/* Search Results */}
-      {filteredProducts.length > 0 && (
-        <div className="bg-white p-4 mt-4">
-          <h3 className="text-lg font-semibold">Search Results:</h3>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-            {filteredProducts.map((product) => (
-              <div key={product.productName} className="border p-4 rounded-md">
-                <Image 
-                  src={product.image} 
-                  alt={product.productName} 
-                  width={500} 
-                  height={300} 
-                  className="w-full h-48 object-cover" 
-                />
-                <div className="mt-2">
-                  <h4 className="font-semibold">{product.productName}</h4>
+      {isSearchOpen && (
+        <div className="absolute bg-white shadow-lg w-full max-w-sm mt-2 z-40">
+          {filteredProducts.length > 0 ? (
+            <ul>
+              {filteredProducts.map((product, index) => (
+                <li key={index} className="px-4 py-2 border-b">
+                  <Image src={product.image} alt={product.productName} width={50} height={50} />
+                  <p>{product.productName}</p>
                   <p>{product.category}</p>
-                </div>
-              </div>
-            ))}
-          </div>
+                </li>
+              ))}
+            </ul>
+          ) : (
+            <p className="px-4 py-2">{translate('noResults')}</p>
+          )}
         </div>
       )}
     </div>
