@@ -19,11 +19,12 @@ const fetchProducts = async () => {
     return [];
   }
   const data = await response.json();
-  return Array.isArray(data) ? data : [];
+  console.log(data); // Check the shape of the data here
+  return Array.isArray(data) ? data : []; // Ensure it's always an array
 };
 
 export default function Navbar() {
-  const { language, translate, setLanguage } = useTranslate();
+  const { language, setLanguage, translate } = useTranslate();
   const [searchQuery, setSearchQuery] = useState('');
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [products, setProducts] = useState<Product[]>([]);
@@ -42,7 +43,7 @@ export default function Navbar() {
   }, []);
 
   const handleLanguageChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    setLanguage(e.target.value as 'en' | 'es' | 'fr'); // Adjust language options as needed
+    setLanguage(e.target.value as 'en' | 'ar' | 'ur'); // Removed 'hi'
   };
 
   const handleSearch = useCallback(() => {
@@ -76,8 +77,8 @@ export default function Navbar() {
               <div className="absolute right-0 bg-gray-900 text-white rounded-lg shadow-md mt-2 w-40 z-40">
                 <select value={language} onChange={handleLanguageChange} className="w-full bg-gray-900 text-white p-2 rounded-lg">
                   <option value="en">English</option>
-                  <option value="es">Español</option>
-                  <option value="fr">Français</option>
+                  <option value="ar">Arabic (عربي)</option>
+                  <option value="ur">Urdu (اردو)</option>
                 </select>
               </div>
             )}
