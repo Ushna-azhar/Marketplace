@@ -46,37 +46,37 @@ const Register = () => {
   };
 
   return (
-    <div className="flex justify-center items-center min-h-screen bg-gray-100 px-4 py-6">
-      <div className="w-full max-w-md bg-white p-8 rounded-lg shadow-lg space-y-6">
-        <h2 className="text-2xl font-semibold text-center mb-4">Create Your Account</h2>
+    <div className="flex justify-center items-center min-h-screen bg-gray-100">
+      <div className="w-full max-w-md bg-white p-6 rounded-lg shadow-lg">
+        <h2 className="text-2xl font-semibold text-center mb-6">Register</h2>
 
         {/* Display error or success messages */}
-        {error && <div className="text-red-500 text-sm mb-4">{error}</div>}
+        {error && <div className="text-red-500 text-sm mb-4">{error}</div>} {/* Error message displayed here */}
         {success && <div className="text-green-500 text-sm mb-4">Registration successful!</div>}
 
         <form onSubmit={handleSubmit}>
           <div className="mb-4">
-            <label htmlFor="name" className="block text-sm font-semibold text-gray-700">Full Name</label>
+            <label htmlFor="name" className="block text-sm font-semibold text-gray-700">Name</label>
             <input
               type="text"
               id="name"
               name="name"
               value={formData.name}
               onChange={handleChange}
-              className="w-full p-3 border border-gray-300 rounded-md mt-1 focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="w-full p-3 border border-gray-300 rounded-md mt-1"
               required
             />
           </div>
 
           <div className="mb-4">
-            <label htmlFor="email" className="block text-sm font-semibold text-gray-700">Email Address</label>
+            <label htmlFor="email" className="block text-sm font-semibold text-gray-700">Email</label>
             <input
               type="email"
               id="email"
               name="email"
               value={formData.email}
               onChange={handleChange}
-              className="w-full p-3 border border-gray-300 rounded-md mt-1 focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="w-full p-3 border border-gray-300 rounded-md mt-1"
               required
             />
           </div>
@@ -89,7 +89,7 @@ const Register = () => {
               name="password"
               value={formData.password}
               onChange={handleChange}
-              className="w-full p-3 border border-gray-300 rounded-md mt-1 focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="w-full p-3 border border-gray-300 rounded-md mt-1"
               required
             />
           </div>
@@ -97,25 +97,10 @@ const Register = () => {
           <div className="flex items-center justify-between mt-6">
             <button
               type="submit"
-              className={`w-full bg-blue-500 text-white p-3 rounded-md hover:bg-blue-600 transition-all ${loading ? 'opacity-50 cursor-not-allowed' : ''}`}
+              className={`w-full bg-blue-500 text-white p-3 rounded-md ${loading ? 'opacity-50' : ''}`}
               disabled={loading}
             >
-              {loading ? (
-                <span className="flex justify-center items-center">
-                  <svg
-                    className="animate-spin h-5 w-5 mr-2"
-                    xmlns="http://www.w3.org/2000/svg"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
-                  >
-                    <circle cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" className="text-white" />
-                  </svg>
-                  Registering...
-                </span>
-              ) : (
-                'Register'
-              )}
+              {loading ? 'Registering...' : 'Register'}
             </button>
           </div>
         </form>
