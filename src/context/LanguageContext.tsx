@@ -1,4 +1,4 @@
-'use client'
+'use client';
 import React, { createContext, useContext, ReactNode, useState } from "react";
 
 // Define the translation keys for each language
@@ -67,11 +67,13 @@ export const LanguageProvider: React.FC<{ children: ReactNode }> = ({ children }
 };
 
 // Translate function to get the translated string for the current language
-export const translate = (key: keyof Translations): string => {
+export const useTranslate = () => {
   const context = useContext(LanguageContext);
   if (!context) {
-    throw new Error("useContext must be used within a LanguageProvider");
+    throw new Error("useTranslate must be used within a LanguageProvider");
   }
   const { language } = context;
-  return translations[language][key] || key; // Return the translation if exists, otherwise return the key itself
+  return (key: keyof Translations): string => {
+    return translations[language][key] || key; // Return the translation if exists, otherwise return the key itself
+  };
 };
