@@ -1,82 +1,75 @@
-'use client'
-import React, { useEffect, useState } from "react";
-import { Chart } from "react-chartjs-2";
-import {
-  ChartOptions,
-  ChartData,
-  CategoryScale,
-  BarElement,
-  Title,
-  Tooltip,
-  Legend,
-} from "chart.js";
-import { Chart as ChartJS } from "chart.js";
+'use client';
+import React, { useState, useEffect } from 'react';
+import { Chart as ChartJS, CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend, ChartData } from 'chart.js';
+import { Bar } from 'react-chartjs-2';
 
-// Register Chart.js components
-ChartJS.register(CategoryScale, BarElement, Title, Tooltip, Legend);
+// Registering necessary Chart.js components
+ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
 
-const AdminDashboard = () => {
-  const [products, setProducts] = useState<any[]>([]);
+interface DashboardData {
+  sales: number;
+  users: number;
+  revenue: number;
+}
 
-  // Fetch product data (replace this with your actual data fetching logic)
+const fetchDashboardData = async (): Promise<DashboardData> => {
+  // Replace with your actual API fetch or static data
+  return {
+    sales: 150,
+    users: 1200,
+    revenue: 5000,
+  };
+};
+
+const AdminDashboard: React.FC = () => {
+  const [dashboardData, setDashboardData] = useState<DashboardData | null>(null);
+
   useEffect(() => {
-    // Example of fetching data
-    const fetchData = async () => {
-      const response = await fetch("your-api-endpoint-here");
-      const data = await response.json();
-      setProducts(data); // Assuming the data is an array of products
+    const loadData = async () => {
+      const data = await fetchDashboardData();
+      setDashboardData(data);
     };
-
-    fetchData();
+    loadData();
   }, []);
 
-  // Chart.js data processing function
-  const processData = (products: any[]) => {
-    return {
-      labels: products.map((product) => product.name), // Example: product name as labels
-      datasets: [
-        {
-          label: "Sales",
-          data: products.map((product) => product.sales), // Example: sales data
-          backgroundColor: "rgba(75, 192, 192, 0.2)",
-          borderColor: "rgba(75, 192, 192, 1)",
-          borderWidth: 1,
-        },
-      ],
-    };
-  };
-
-  // Chart options configuration
-  const chartOptions: ChartOptions = {
-    responsive: true,
-    maintainAspectRatio: false,
-    plugins: {
-      title: {
-        display: true,
-        text: "Admin Dashboard Chart",
-        font: {
-          size: 18,
-          weight: "bold", // Use valid string or numeric values for the weight
-        },
-        color: "#000",
+  const chartData: ChartData<'bar'> = {
+    labels: ['Sales', 'Users', 'Revenue'],
+    datasets: [
+      {
+        label: 'Admin Dashboard Data',
+        data: dashboardData ? [dashboardData.sales, dashboardData.users, dashboardData.revenue] : [0, 0, 0],
+        backgroundColor: 'rgba(75, 192, 192, 0.2)',
+        borderColor: 'rgba(75, 192, 192, 1)',
+        borderWidth: 1,
       },
-      tooltip: {
-        backgroundColor: "#333",
-        titleColor: "#fff",
-        bodyColor: "#fff",
-      },
-    },
+    ],
   };
 
   return (
-    <div style={{ width: "100%", height: "600px" }}>
-      <h2>Admin Dashboard</h2>
-      <div style={{ height: "100%" }}>
-        <Chart
-          type="bar"
-          data={processData(products)} // Pass processed data
-          options={chartOptions} // Pass chart options
-        />
+    <div className="admin-dashboard">
+      <h2 className="text-2xl font-bold">Admin Dashboard</h2>
+
+      {dashboardData ? (
+        <div className="dashboard-stats">
+          <div className="stat">
+            <h3>Sales</h3>
+            <p>{dashboardData.sales}</p>
+          </div>
+          <div className="stat">
+            <h3>Users</h3>
+            <p>{dashboardData.users}</p>
+          </div>
+          <div className="stat">
+            <h3>Revenue</h3>
+            <p>${dashboardData.revenue}</p>
+          </div>
+        </div>
+      ) : (
+        <p>Loading data...</p>
+      )}
+
+      <div className="chart">
+        <Bar data={chartData} />
       </div>
     </div>
   );
