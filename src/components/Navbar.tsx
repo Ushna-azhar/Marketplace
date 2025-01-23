@@ -24,7 +24,7 @@ const fetchProducts = async () => {
 };
 
 export default function Navbar() {
-  const { language, setLanguage, translate } = useLanguage();
+  const { language, setLanguage, translate } = useTranslate();
   const [searchQuery, setSearchQuery] = useState('');
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [products, setProducts] = useState<Product[]>([]);
