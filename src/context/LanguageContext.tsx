@@ -1,3 +1,4 @@
+'use client'
 import React, { createContext, useContext, ReactNode, useState } from "react";
 
 // Define the translation keys for each language
