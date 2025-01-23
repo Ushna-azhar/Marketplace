@@ -1,5 +1,5 @@
 'use client';
-import React, { createContext, useContext, ReactNode, useState } from "react";
+import React, { createContext, useContext, ReactNode, useState } from 'react';
 
 // Define the translation keys for each language
 interface Translations {
@@ -12,7 +12,7 @@ interface Translations {
 }
 
 // Type for supported languages
-type Language = "en" | "es" | "fr"; // Add your supported languages here
+type Language = 'en' | 'ur' | 'ar'; // English, Urdu, Arabic
 
 // The context will provide the current language and a method to change it
 interface LanguageContextType {
@@ -26,34 +26,34 @@ export const LanguageContext = createContext<LanguageContextType | undefined>(un
 // Translations for each language
 const translations: Record<Language, Translations> = {
   en: {
-    home: "Home",
-    products: "Products",
-    about: "About",
-    contact: "Contact",
-    searchPlaceholder: "Search...",
-    noResults: "No results found",
+    home: 'Home',
+    products: 'Products',
+    about: 'About',
+    contact: 'Contact',
+    searchPlaceholder: 'Search...',
+    noResults: 'No results found',
   },
-  es: {
-    home: "Inicio",
-    products: "Productos",
-    about: "Acerca de",
-    contact: "Contacto",
-    searchPlaceholder: "Buscar...",
-    noResults: "No se encontraron resultados",
+  ur: {
+    home: 'گھر',
+    products: 'مصنوعات',
+    about: 'کے بارے میں',
+    contact: 'رابطہ',
+    searchPlaceholder: 'تلاش کریں...',
+    noResults: 'کوئی نتائج نہیں ملے',
   },
-  fr: {
-    home: "Accueil",
-    products: "Produits",
-    about: "À propos",
-    contact: "Contact",
-    searchPlaceholder: "Chercher...",
-    noResults: "Aucun résultat trouvé",
+  ar: {
+    home: 'الصفحة الرئيسية',
+    products: 'المنتجات',
+    about: 'حول',
+    contact: 'اتصل',
+    searchPlaceholder: 'بحث...',
+    noResults: 'لم يتم العثور على نتائج',
   },
 };
 
 // LanguageProvider component to provide the context
 export const LanguageProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
-  const [language, setLanguage] = useState<Language>("en"); // Default language is "en"
+  const [language, setLanguage] = useState<Language>('en'); // Default language is English
 
   const changeLanguage = (newLanguage: Language) => {
     setLanguage(newLanguage);
@@ -70,7 +70,7 @@ export const LanguageProvider: React.FC<{ children: ReactNode }> = ({ children }
 export const useTranslate = () => {
   const context = useContext(LanguageContext);
   if (!context) {
-    throw new Error("useTranslate must be used within a LanguageProvider");
+    throw new Error('useTranslate must be used within a LanguageProvider');
   }
   const { language, setLanguage } = context;
   return {
