@@ -132,8 +132,18 @@ export default function Navbar() {
       </header>
 
       {isMenuOpen && (
-        <div className="lg:hidden fixed inset-0 bg-black bg-opacity-50 z-20">
-          {/* Menu items here */}
+        <div className="lg:hidden fixed inset-0 bg-black bg-opacity-50 z-20 flex flex-col items-center pt-20">
+          <Link href="/" className="text-white py-4">Home</Link>
+          <Link href="/product" className="text-white py-4">Products</Link>
+          <Link href="#about" className="text-white py-4">About</Link>
+          <Link href="#contact" className="text-white py-4">Contact</Link>
+
+          <div className="text-white py-4">
+            <Link href="/cart" className="block py-2">Cart</Link>
+            <Link href="/wishlist" className="block py-2">Wishlist</Link>
+            <Link href="/admin" className="block py-2">Admin</Link>
+            <Link href="/register" className="block py-2">Register</Link>
+          </div>
         </div>
       )}
 
