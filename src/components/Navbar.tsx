@@ -70,7 +70,22 @@ export default function Navbar() {
             <div>Shoezshop</div>
           </div>
 
+          <div className="flex items-center gap-4 lg:hidden">
+            <button onClick={() => setIsMenuOpen(!isMenuOpen)} className="text-white focus:outline-none">
+              {isMenuOpen ? <FaTimes size={20} /> : <FaBars size={20} />}
+            </button>
+          </div>
+          
+          {/* Centered Navbar Links on Large Screens */}
+          <div className="hidden lg:flex justify-center flex-grow space-x-6">
+            <Link href="/" className="text-white">{translate('home')}</Link>
+            <Link href="/product" className="text-white">{translate('products')}</Link>
+            <Link href="#about" className="text-white">{translate('about')}</Link>
+            <Link href="#contact" className="text-white">{translate('contact')}</Link>
+          </div>
+
           <div className="flex items-center gap-4">
+            {/* Language Dropdown */}
             <div className="relative">
               <button onClick={() => setIsLangMenuOpen(!isLangMenuOpen)} className="text-white focus:outline-none">
                 <FaGlobe size={20} />
@@ -86,6 +101,7 @@ export default function Navbar() {
               )}
             </div>
 
+            {/* Search Icon */}
             <div className="relative">
               <button onClick={() => setIsSearchOpen(!isSearchOpen)} className="text-white">
                 <FaSearch size={20} />
@@ -103,38 +119,27 @@ export default function Navbar() {
               )}
             </div>
 
-            <button onClick={() => setIsMenuOpen(!isMenuOpen)} className="lg:hidden text-white focus:outline-none">
-              {isMenuOpen ? <FaTimes size={20} /> : <FaBars size={20} />}
-            </button>
+            {/* Desktop Icons */}
+            <Link href="/admin">
+              <FaUser size={20} className="text-white hover:text-gray-300 transition" />
+            </Link>
+
+            <Link href="/register">
+              <FaUserPlus size={20} className="text-white hover:text-gray-300 transition" />
+            </Link>
+
+            <Link href="/cart" className="text-white hover:text-gray-300 transition">
+              <FaShoppingCart size={20} />
+            </Link>
+
+            <Link href="/wishlist" className="text-white hover:text-gray-300 transition">
+              <FaHeart size={20} />
+            </Link>
           </div>
         </div>
       </header>
 
-      <nav className="hidden lg:flex space-x-6">
-        <Link href="/">{translate('home')}</Link>
-        <Link href="/product">{translate('products')}</Link>
-        <Link href="#about">{translate('about')}</Link>
-        <Link href="#contact">{translate('contact')}</Link>
-      </nav>
-
-      <div className="flex items-center gap-4">
-        <Link href="/admin">
-          <FaUser size={20} className="text-white hover:text-gray-300 transition" />
-        </Link>
-
-        <Link href="/register">
-          <FaUserPlus size={20} className="text-white hover:text-gray-300 transition" />
-        </Link>
-
-        <Link href="/cart" className="hidden lg:block text-white hover:text-gray-300 transition">
-          <FaShoppingCart size={20} />
-        </Link>
-
-        <Link href="/wishlist" className="hidden lg:block text-white hover:text-gray-300 transition">
-          <FaHeart size={20} />
-        </Link>
-      </div>
-
+      {/* Hamburger Menu for Mobile */}
       {isMenuOpen && (
         <div className="lg:hidden fixed inset-0 bg-black bg-opacity-50 z-20 flex flex-col items-center pt-20">
           <Link href="/" className="text-white py-4">Home</Link>
