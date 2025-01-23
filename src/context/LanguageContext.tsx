@@ -72,6 +72,8 @@ export const useTranslate = () => {
   if (!context) {
     throw new Error("useTranslate must be used within a LanguageProvider");
   }
-  const { language, setLanguage } = context;
-  return { language, translate: (key: keyof Translations): string => translations[language][key] || key };
+  const { language } = context;
+  return (key: keyof Translations): string => {
+    return translations[language][key] || key; // Return the translation if exists, otherwise return the key itself
+  };
 };
