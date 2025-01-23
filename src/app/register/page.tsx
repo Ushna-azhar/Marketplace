@@ -9,7 +9,6 @@ const Register = () => {
     password: '',
   });
 
-  const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState(false);
 
@@ -27,7 +26,6 @@ const Register = () => {
     setLoading(true);
 
     if (!formData.name || !formData.email || !formData.password) {
-      setError('Please fill in all fields');
       setLoading(false);
       return;
     }
@@ -37,9 +35,8 @@ const Register = () => {
       // Mock API call
       await new Promise((resolve) => setTimeout(resolve, 2000));
       setSuccess(true);
-      setError(null); // Reset error message if registration is successful
     } catch (error) {
-      setError('Registration failed, please try again');
+      // Handle registration failure (optional)
     } finally {
       setLoading(false);
     }
@@ -50,8 +47,7 @@ const Register = () => {
       <div className="w-full max-w-md bg-white p-6 rounded-lg shadow-lg">
         <h2 className="text-2xl font-semibold text-center mb-6">Register</h2>
 
-        {/* Display error or success messages */}
-        {error && <div className="text-red-500 text-sm mb-4">{error}</div>} {/* Error message displayed here */}
+        {/* Display success message */}
         {success && <div className="text-green-500 text-sm mb-4">Registration successful!</div>}
 
         <form onSubmit={handleSubmit}>
@@ -117,3 +113,4 @@ const Register = () => {
 };
 
 export default Register;
+
