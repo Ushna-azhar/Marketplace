@@ -12,6 +12,11 @@ const ReviewRatings: React.FC<ReviewRatingsProps> = ({ ratings = [5, 4, 3, 5, 4]
   const averageRating =
     totalRatings > 0 ? ratings.reduce((acc, curr) => acc + curr, 0) / totalRatings : 0;
 
+  // Handle star click to set user rating
+  const handleStarClick = (rating: number) => {
+    setUserRating(rating); // Update the user rating
+  };
+
   return (
     <div className="flex flex-col items-center">
       <h2 className="text-2xl font-bold mb-4">Product Reviews</h2>
@@ -20,6 +25,7 @@ const ReviewRatings: React.FC<ReviewRatingsProps> = ({ ratings = [5, 4, 3, 5, 4]
           <span
             key={star}
             className={`cursor-pointer text-2xl ${userRating >= star ? "text-yellow-400" : "text-gray-400"}`}
+            onClick={() => handleStarClick(star)} // Add click handler to set user rating
           >
             ★
           </span>
