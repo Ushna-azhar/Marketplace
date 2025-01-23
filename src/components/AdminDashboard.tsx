@@ -1,9 +1,12 @@
 'use client';
 import React, { useState } from "react";
 import { SubmitHandler, useForm, FieldValues } from "react-hook-form";
-import { Product, Discount, Coupon } from  './type'// Make sure this import is correct
-import { Chart } from "react-chartjs-2"; // Importing Chart component from react-chartjs-2
-import { ChartOptions } from "chart.js"; // Importing chart.js types if necessary
+import { Product, Discount, Coupon } from  './type';
+import { Chart } from "react-chartjs-2"; 
+import { Chart as ChartJS, BarElement, CategoryScale, LinearScale, Title, Tooltip, Legend } from 'chart.js';
+
+// Registering the necessary chart components
+ChartJS.register(BarElement, CategoryScale, LinearScale, Title, Tooltip, Legend);
 
 const AdminDashboard = () => {
   const [products, setProducts] = useState<Product[]>([]);
@@ -30,7 +33,7 @@ const AdminDashboard = () => {
     console.log("Coupon Submitted", couponData);
   };
 
-  const chartOptions: ChartOptions = {
+  const chartOptions = {
     responsive: true,
     maintainAspectRatio: false,
     plugins: {
