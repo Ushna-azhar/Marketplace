@@ -2,6 +2,8 @@
 
 import { useState } from 'react';
 
+/* eslint-disable @typescript-eslint/no-unused-vars */
+
 const Register = () => {
   const [formData, setFormData] = useState({
     name: '',
@@ -35,8 +37,8 @@ const Register = () => {
       // Mock API call
       await new Promise((resolve) => setTimeout(resolve, 2000));
       setSuccess(true);
-    } catch (error) {
-      // Handle registration failure (optional)
+    } catch {
+      // Handle registration failure
     } finally {
       setLoading(false);
     }
@@ -113,4 +115,3 @@ const Register = () => {
 };
 
 export default Register;
-
