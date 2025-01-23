@@ -1,39 +1,52 @@
-'use client';
-import React, { useState } from "react";
-import { SubmitHandler, useForm, FieldValues } from "react-hook-form";
-import { Product, Discount, Coupon } from  './type';
-import { Chart } from "react-chartjs-2"; 
-import { Chart as ChartJS, BarElement, CategoryScale, LinearScale, Title, Tooltip, Legend } from 'chart.js';
+import React, { useEffect, useState } from "react";
+import { Chart } from "react-chartjs-2";
+import {
+  ChartOptions,
+  ChartData,
+  CategoryScale,
+  BarElement,
+  Title,
+  Tooltip,
+  Legend,
+} from "chart.js";
+import { Chart as ChartJS } from "chart.js";
 
-// Registering the necessary chart components
-ChartJS.register(BarElement, CategoryScale, LinearScale, Title, Tooltip, Legend);
+// Register Chart.js components
+ChartJS.register(CategoryScale, BarElement, Title, Tooltip, Legend);
 
 const AdminDashboard = () => {
-  const [products, setProducts] = useState<Product[]>([]);
-  const [discounts, setDiscounts] = useState<Discount[]>([]);
-  const [coupons, setCoupons] = useState<Coupon[]>([]);
+  const [products, setProducts] = useState<any[]>([]);
 
-  const { register, handleSubmit, formState: { errors } } = useForm();
+  // Fetch product data (replace this with your actual data fetching logic)
+  useEffect(() => {
+    // Example of fetching data
+    const fetchData = async () => {
+      const response = await fetch("your-api-endpoint-here");
+      const data = await response.json();
+      setProducts(data); // Assuming the data is an array of products
+    };
 
-  const onSubmitProduct: SubmitHandler<FieldValues> = (data) => {
-    const productData = data as Product;
-    setProducts(prevProducts => [...prevProducts, productData]);
-    console.log("Product Submitted", productData);
+    fetchData();
+  }, []);
+
+  // Chart.js data processing function
+  const processData = (products: any[]) => {
+    return {
+      labels: products.map((product) => product.name), // Example: product name as labels
+      datasets: [
+        {
+          label: "Sales",
+          data: products.map((product) => product.sales), // Example: sales data
+          backgroundColor: "rgba(75, 192, 192, 0.2)",
+          borderColor: "rgba(75, 192, 192, 1)",
+          borderWidth: 1,
+        },
+      ],
+    };
   };
 
-  const onSubmitDiscount: SubmitHandler<FieldValues> = (data) => {
-    const discountData = data as Discount;
-    setDiscounts(prevDiscounts => [...prevDiscounts, discountData]);
-    console.log("Discount Submitted", discountData);
-  };
-
-  const onSubmitCoupon: SubmitHandler<FieldValues> = (data) => {
-    const couponData = data as Coupon;
-    setCoupons(prevCoupons => [...prevCoupons, couponData]);
-    console.log("Coupon Submitted", couponData);
-  };
-
-  const chartOptions = {
+  // Chart options configuration
+  const chartOptions: ChartOptions = {
     responsive: true,
     maintainAspectRatio: false,
     plugins: {
@@ -42,7 +55,7 @@ const AdminDashboard = () => {
         text: "Admin Dashboard Chart",
         font: {
           size: 18,
-          weight: "bold", 
+          weight: "bold", // Use valid string or numeric values for the weight
         },
         color: "#000",
       },
@@ -54,104 +67,15 @@ const AdminDashboard = () => {
     },
   };
 
-  const processData = (products: Product[]) => {
-    const labels = products.map(product => product.name);
-    const stockData = products.map(product => product.stock);
-
-    return {
-      labels, // Array of product names
-      datasets: [
-        {
-          label: 'Product Stock', // Label for the chart
-          data: stockData, // Stock values for each product
-          borderColor: 'rgba(75, 192, 192, 1)',
-          backgroundColor: 'rgba(75, 192, 192, 0.2)',
-        },
-      ],
-    };
-  };
-
   return (
-    <div className="admin-dashboard">
-      <h1>Admin Dashboard</h1>
-
-      <form onSubmit={handleSubmit(onSubmitProduct)}>
-        <div>
-          <label>Name</label>
-          <input type="text" {...register("name", { required: true })} />
-          {errors.name && <span>Name is required</span>}
-        </div>
-        <div>
-          <label>Price</label>
-          <input type="number" {...register("price", { required: true })} />
-          {errors.price && <span>Price is required</span>}
-        </div>
-        <div>
-          <label>Stock</label>
-          <input type="number" {...register("stock", { required: true })} />
-          {errors.stock && <span>Stock is required</span>}
-        </div>
-        <button type="submit">Submit Product</button>
-      </form>
-
-      <form onSubmit={handleSubmit(onSubmitDiscount)}>
-        <div>
-          <label>Discount</label>
-          <input type="text" {...register("discount", { required: true })} />
-          {errors.discount && <span>Discount is required</span>}
-        </div>
-        <button type="submit">Submit Discount</button>
-      </form>
-
-      <form onSubmit={handleSubmit(onSubmitCoupon)}>
-        <div>
-          <label>Coupon Code</label>
-          <input type="text" {...register("code", { required: true })} />
-          {errors.code && <span>Coupon code is required</span>}
-        </div>
-        <div>
-          <label>Discount Value</label>
-          <input type="number" {...register("discountValue", { required: true })} />
-          {errors.discountValue && <span>Discount value is required</span>}
-        </div>
-        <div>
-          <label>Expiry Date</label>
-          <input type="date" {...register("expiryDate", { required: true })} />
-          {errors.expiryDate && <span>Expiry date is required</span>}
-        </div>
-        <button type="submit">Submit Coupon</button>
-      </form>
-
-      <div>
-        <h2>Products</h2>
-        <ul>
-          {products.map((product, index) => (
-            <li key={index}>{product.name} - ${product.price}</li>
-          ))}
-        </ul>
-      </div>
-
-      <div>
-        <h2>Discounts</h2>
-        <ul>
-          {discounts.map((discount, index) => (
-            <li key={index}>{discount.discount}% off</li>
-          ))}
-        </ul>
-      </div>
-
-      <div>
-        <h2>Coupons</h2>
-        <ul>
-          {coupons.map((coupon, index) => (
-            <li key={index}>{coupon.code} - {coupon.discountValue}% off</li>
-          ))}
-        </ul>
-      </div>
-
-      <div>
-        <h2>Dashboard Chart</h2>
-        <Chart type="bar" data={processData(products)} options={chartOptions} />
+    <div style={{ width: "100%", height: "600px" }}>
+      <h2>Admin Dashboard</h2>
+      <div style={{ height: "100%" }}>
+        <Chart
+          type="bar"
+          data={processData(products)} // Pass processed data
+          options={chartOptions} // Pass chart options
+        />
       </div>
     </div>
   );
