@@ -70,8 +70,8 @@ export default function Navbar() {
             <div>Shoezshop</div>
           </div>
 
-          <div className="flex items-center gap-4 lg:hidden">
-            {/* Hamburger Icon */}
+          {/* Hamburger Icon moved to the right */}
+          <div className="flex items-center gap-4 lg:hidden ml-auto">
             <button onClick={() => setIsMenuOpen(!isMenuOpen)} className="text-white focus:outline-none">
               {isMenuOpen ? <FaTimes size={20} /> : <FaBars size={20} />}
             </button>
@@ -123,9 +123,6 @@ export default function Navbar() {
 
             {/* Desktop Icons - Hidden on Mobile */}
             <div className="hidden lg:flex gap-4">
-              <Link href="/admin">
-                <FaUser size={20} className="text-white hover:text-gray-300 transition" />
-              </Link>
               <Link href="/register">
                 <FaUserPlus size={20} className="text-white hover:text-gray-300 transition" />
               </Link>
@@ -142,7 +139,7 @@ export default function Navbar() {
 
       {/* Hamburger Menu for Mobile */}
       {isMenuOpen && (
-        <div className="lg:hidden fixed inset-0 bg-black bg-opacity-50 z-20 flex flex-col items-center pt-20">
+        <div className="lg:hidden fixed inset-0 bg-black bg-opacity-90 z-20 flex flex-col items-center pt-20">
           <Link href="/" className="text-white py-4">Home</Link>
           <Link href="/product" className="text-white py-4">Products</Link>
           <Link href="#about" className="text-white py-4">About</Link>
@@ -151,7 +148,6 @@ export default function Navbar() {
           <div className="text-white py-4">
             <Link href="/cart" className="block py-2">Cart</Link>
             <Link href="/wishlist" className="block py-2">Wishlist</Link>
-            <Link href="/admin" className="block py-2">Admin</Link>
             <Link href="/register" className="block py-2">Register</Link>
           </div>
         </div>
