@@ -71,11 +71,12 @@ export default function Navbar() {
           </div>
 
           <div className="flex items-center gap-4 lg:hidden">
+            {/* Hamburger Icon */}
             <button onClick={() => setIsMenuOpen(!isMenuOpen)} className="text-white focus:outline-none">
               {isMenuOpen ? <FaTimes size={20} /> : <FaBars size={20} />}
             </button>
           </div>
-          
+
           {/* Centered Navbar Links on Large Screens */}
           <div className="hidden lg:flex justify-center flex-grow space-x-6">
             <Link href="/" className="text-white">{translate('home')}</Link>
@@ -84,6 +85,7 @@ export default function Navbar() {
             <Link href="#contact" className="text-white">{translate('contact')}</Link>
           </div>
 
+          {/* Icons Section */}
           <div className="flex items-center gap-4">
             {/* Language Dropdown */}
             <div className="relative">
@@ -119,22 +121,21 @@ export default function Navbar() {
               )}
             </div>
 
-            {/* Desktop Icons */}
-            <Link href="/admin">
-              <FaUser size={20} className="text-white hover:text-gray-300 transition" />
-            </Link>
-
-            <Link href="/register">
-              <FaUserPlus size={20} className="text-white hover:text-gray-300 transition" />
-            </Link>
-
-            <Link href="/cart" className="text-white hover:text-gray-300 transition">
-              <FaShoppingCart size={20} />
-            </Link>
-
-            <Link href="/wishlist" className="text-white hover:text-gray-300 transition">
-              <FaHeart size={20} />
-            </Link>
+            {/* Desktop Icons - Hidden on Mobile */}
+            <div className="hidden lg:flex gap-4">
+              <Link href="/admin">
+                <FaUser size={20} className="text-white hover:text-gray-300 transition" />
+              </Link>
+              <Link href="/register">
+                <FaUserPlus size={20} className="text-white hover:text-gray-300 transition" />
+              </Link>
+              <Link href="/cart" className="text-white hover:text-gray-300 transition">
+                <FaShoppingCart size={20} />
+              </Link>
+              <Link href="/wishlist" className="text-white hover:text-gray-300 transition">
+                <FaHeart size={20} />
+              </Link>
+            </div>
           </div>
         </div>
       </header>
@@ -156,15 +157,18 @@ export default function Navbar() {
         </div>
       )}
 
+      {/* Search Results */}
       {isSearchOpen && (
         <div className="absolute bg-white shadow-lg w-full max-w-sm mt-2 z-40">
           {filteredProducts.length > 0 ? (
             <ul>
               {filteredProducts.map((product, index) => (
-                <li key={index} className="px-4 py-2 border-b">
+                <li key={index} className="px-4 py-2 border-b flex items-center gap-2">
                   <Image src={product.image} alt={product.productName} width={50} height={50} />
-                  <p>{product.productName}</p>
-                  <p>{product.category}</p>
+                  <div>
+                    <p>{product.productName}</p>
+                    <p>{product.category}</p>
+                  </div>
                 </li>
               ))}
             </ul>
