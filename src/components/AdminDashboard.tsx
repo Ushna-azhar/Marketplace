@@ -1,209 +1,180 @@
 'use client';
 import React, { useState } from "react";
-import { useForm, SubmitHandler, FieldValues } from "react-hook-form";
-import { Product, Discount, Coupon } from './type'; // Ensure types are defined properly
-import { Chart } from "react-chartjs-2";
-import {
-  Chart as ChartJS,
-  BarElement,
-  CategoryScale,
-  LinearScale,
-  Title,
-  Tooltip,
-} from "chart.js";
-
-// Register Chart.js modules
-ChartJS.register(BarElement, CategoryScale, LinearScale, Title, Tooltip);
+import { SubmitHandler, useForm, FieldValues } from "react-hook-form";
+import { Product, Discount, Coupon } from './type'; // Ensure this import is correct
+import { Chart } from "react-chartjs-2"; // Importing Chart component from react-chartjs-2
+import { ChartOptions } from "chart.js"; // Importing chart.js types if necessary
 
 const AdminDashboard = () => {
   const [products, setProducts] = useState<Product[]>([]);
   const [discounts, setDiscounts] = useState<Discount[]>([]);
   const [coupons, setCoupons] = useState<Coupon[]>([]);
 
-  // Separate form instances
-  const productForm = useForm();
-  const discountForm = useForm();
-  const couponForm = useForm();
+  const { register, handleSubmit, formState: { errors } } = useForm();
 
-  // Handlers for form submissions
   const onSubmitProduct: SubmitHandler<FieldValues> = (data) => {
     const productData = data as Product;
-    setProducts((prev) => [...prev, productData]);
-    productForm.reset();
-    console.log("Product Submitted:", productData);
+    setProducts(prevProducts => [...prevProducts, productData]);
+    console.log("Product Submitted", productData);
   };
 
   const onSubmitDiscount: SubmitHandler<FieldValues> = (data) => {
     const discountData = data as Discount;
-    setDiscounts((prev) => [...prev, discountData]);
-    discountForm.reset();
-    console.log("Discount Submitted:", discountData);
+    setDiscounts(prevDiscounts => [...prevDiscounts, discountData]);
+    console.log("Discount Submitted", discountData);
   };
 
   const onSubmitCoupon: SubmitHandler<FieldValues> = (data) => {
     const couponData = data as Coupon;
-    setCoupons((prev) => [...prev, couponData]);
-    couponForm.reset();
-    console.log("Coupon Submitted:", couponData);
+    setCoupons(prevCoupons => [...prevCoupons, couponData]);
+    console.log("Coupon Submitted", couponData);
   };
 
-  // Chart options and data processing
-  const chartOptions = {
+  const chartOptions: ChartOptions = {
     responsive: true,
     maintainAspectRatio: false,
     plugins: {
       title: {
         display: true,
-        text: "Product Stock Levels",
+        text: "Admin Dashboard Chart",
+        font: {
+          size: 18,
+          weight: "bold", 
+        },
+        color: "#000",
+      },
+      tooltip: {
+        backgroundColor: "#333",
+        titleColor: "#fff",
+        bodyColor: "#fff",
       },
     },
   };
 
   const processData = (products: Product[]) => {
-    const labels = products.map((product) => product.name);
-    const data = products.map((product) => product.stock);
+    const labels = products.map(product => product.name);
+    const stockData = products.map(product => product.stock);
 
     return {
-      labels,
+      labels, 
       datasets: [
         {
-          label: "Stock",
-          data,
-          backgroundColor: "rgba(75, 192, 192, 0.5)",
-          borderColor: "rgba(75, 192, 192, 1)",
-          borderWidth: 1,
+          label: 'Product Stock', 
+          data: stockData, 
+          borderColor: 'rgba(75, 192, 192, 1)',
+          backgroundColor: 'rgba(75, 192, 192, 0.2)',
         },
       ],
     };
   };
 
   return (
-    <div className="admin-dashboard">
+    <div className="admin-dashboard max-w-screen-lg mx-auto p-4">
       <h1 className="text-2xl font-bold mb-6">Admin Dashboard</h1>
 
       {/* Product Form */}
       <div className="mb-6">
         <h2 className="text-xl font-semibold">Add Product</h2>
-        <form onSubmit={productForm.handleSubmit(onSubmitProduct)} className="space-y-4">
+        <form onSubmit={handleSubmit(onSubmitProduct)} className="space-y-4">
           <div>
             <label className="block text-sm">Product Name</label>
-            <input
-              type="text"
-              {...productForm.register("name", { required: "Product name is required" })}
-              className="border p-2 w-full"
-            />
-            {productForm.formState.errors.name && (
-              <span className="text-red-500 text-sm">{productForm.formState.errors.name.message}</span>
-            )}
+            <input type="text" {...register("name", { required: true })} className="border p-2 w-full"/>
+            {errors.name && <span className="text-red-500 text-sm">Name is required</span>}
           </div>
           <div>
             <label className="block text-sm">Price</label>
-            <input
-              type="number"
-              {...productForm.register("price", { required: "Price is required" })}
-              className="border p-2 w-full"
-            />
-            {productForm.formState.errors.price && (
-              <span className="text-red-500 text-sm">{productForm.formState.errors.price.message}</span>
-            )}
+            <input type="number" {...register("price", { required: true })} className="border p-2 w-full"/>
+            {errors.price && <span className="text-red-500 text-sm">Price is required</span>}
           </div>
           <div>
             <label className="block text-sm">Stock</label>
-            <input
-              type="number"
-              {...productForm.register("stock", { required: "Stock is required" })}
-              className="border p-2 w-full"
-            />
-            {productForm.formState.errors.stock && (
-              <span className="text-red-500 text-sm">{productForm.formState.errors.stock.message}</span>
-            )}
+            <input type="number" {...register("stock", { required: true })} className="border p-2 w-full"/>
+            {errors.stock && <span className="text-red-500 text-sm">Stock is required</span>}
           </div>
-          <button type="submit" className="bg-blue-500 text-white p-2 rounded">
-            Submit Product
-          </button>
+          <button type="submit" className="bg-blue-500 text-white p-2 rounded w-full md:w-auto">Submit Product</button>
         </form>
       </div>
 
       {/* Discount Form */}
       <div className="mb-6">
         <h2 className="text-xl font-semibold">Add Discount</h2>
-        <form onSubmit={discountForm.handleSubmit(onSubmitDiscount)} className="space-y-4">
+        <form onSubmit={handleSubmit(onSubmitDiscount)} className="space-y-4">
           <div>
             <label className="block text-sm">Discount Percentage</label>
-            <input
-              type="number"
-              {...discountForm.register("discount", { required: "Discount is required" })}
-              className="border p-2 w-full"
-            />
-            {discountForm.formState.errors.discount && (
-              <span className="text-red-500 text-sm">{discountForm.formState.errors.discount.message}</span>
-            )}
+            <input type="text" {...register("discount", { required: true })} className="border p-2 w-full"/>
+            {errors.discount && <span className="text-red-500 text-sm">Discount is required</span>}
           </div>
-          <button type="submit" className="bg-blue-500 text-white p-2 rounded">
-            Submit Discount
-          </button>
+          <button type="submit" className="bg-blue-500 text-white p-2 rounded w-full md:w-auto">Submit Discount</button>
         </form>
       </div>
 
       {/* Coupon Form */}
       <div className="mb-6">
         <h2 className="text-xl font-semibold">Add Coupon</h2>
-        <form onSubmit={couponForm.handleSubmit(onSubmitCoupon)} className="space-y-4">
+        <form onSubmit={handleSubmit(onSubmitCoupon)} className="space-y-4">
           <div>
             <label className="block text-sm">Coupon Code</label>
-            <input
-              type="text"
-              {...couponForm.register("code", { required: "Coupon code is required" })}
-              className="border p-2 w-full"
-            />
-            {couponForm.formState.errors.code && (
-              <span className="text-red-500 text-sm">{couponForm.formState.errors.code.message}</span>
-            )}
+            <input type="text" {...register("code", { required: true })} className="border p-2 w-full"/>
+            {errors.code && <span className="text-red-500 text-sm">Coupon code is required</span>}
           </div>
           <div>
             <label className="block text-sm">Discount Value</label>
-            <input
-              type="number"
-              {...couponForm.register("discountValue", { required: "Discount value is required" })}
-              className="border p-2 w-full"
-            />
-            {couponForm.formState.errors.discountValue && (
-              <span className="text-red-500 text-sm">{couponForm.formState.errors.discountValue.message}</span>
-            )}
+            <input type="number" {...register("discountValue", { required: true })} className="border p-2 w-full"/>
+            {errors.discountValue && <span className="text-red-500 text-sm">Discount value is required</span>}
           </div>
           <div>
             <label className="block text-sm">Expiry Date</label>
-            <input
-              type="date"
-              {...couponForm.register("expiryDate", { required: "Expiry date is required" })}
-              className="border p-2 w-full"
-            />
-            {couponForm.formState.errors.expiryDate && (
-              <span className="text-red-500 text-sm">{couponForm.formState.errors.expiryDate.message}</span>
-            )}
+            <input type="date" {...register("expiryDate", { required: true })} className="border p-2 w-full"/>
+            {errors.expiryDate && <span className="text-red-500 text-sm">Expiry date is required</span>}
           </div>
-          <button type="submit" className="bg-blue-500 text-white p-2 rounded">
-            Submit Coupon
-          </button>
+          <button type="submit" className="bg-blue-500 text-white p-2 rounded w-full md:w-auto">Submit Coupon</button>
         </form>
       </div>
 
       {/* Product List */}
       <div className="mb-6">
         <h2 className="text-xl font-semibold">Product List</h2>
-        <ul>
+        <ul className="space-y-2">
           {products.map((product, index) => (
-            <li key={index}>
-              {product.name} - ${product.price} - {product.stock} in stock
+            <li key={index} className="flex justify-between flex-wrap">
+              <span>{product.name} - ${product.price}</span>
+              <span>{product.stock} in stock</span>
             </li>
           ))}
         </ul>
       </div>
 
-      {/* Chart */}
-      <div>
-        <h2 className="text-xl font-semibold">Product Stock Chart</h2>
-        <Chart type="bar" data={processData(products)} options={chartOptions} />
+      {/* Discount List */}
+      <div className="mb-6">
+        <h2 className="text-xl font-semibold">Discounts</h2>
+        <ul className="space-y-2">
+          {discounts.map((discount, index) => (
+            <li key={index} className="flex justify-between flex-wrap">
+              <span>{discount.discount}% off</span>
+            </li>
+          ))}
+        </ul>
+      </div>
+
+      {/* Coupon List */}
+      <div className="mb-6">
+        <h2 className="text-xl font-semibold">Coupons</h2>
+        <ul className="space-y-2">
+          {coupons.map((coupon, index) => (
+            <li key={index} className="flex justify-between flex-wrap">
+              <span>{coupon.code} - {coupon.discountValue}% off</span>
+              <span>Expires on {coupon.expiryDate}</span>
+            </li>
+          ))}
+        </ul>
+      </div>
+
+      {/* Dashboard Chart */}
+      <div className="mb-6">
+        <h2 className="text-xl font-semibold">Dashboard Chart</h2>
+        <div className="relative h-[300px] sm:h-[400px]">
+          <Chart type="bar" data={processData(products)} options={chartOptions} />
+        </div>
       </div>
     </div>
   );
