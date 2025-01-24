@@ -1,7 +1,7 @@
 'use client';
 import React, { useState, useEffect, useCallback } from 'react';
 import { useDebounce } from 'use-debounce';
-import { FaSearch, FaShoppingCart, FaHeart, FaUser, FaUserPlus, FaBars, FaTimes, FaGlobe } from 'react-icons/fa';
+import { FaSearch, FaShoppingCart, FaHeart, FaUserPlus, FaBars, FaTimes, FaGlobe } from 'react-icons/fa';
 import { useTranslate } from '@/context/LanguageContext';
 import Link from 'next/link';
 import Image from 'next/image';
