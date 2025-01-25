@@ -71,7 +71,7 @@ export default function Navbar() {
           </div>
 
           {/* Hamburger Icon moved to the right */}
-          <div className="flex items-center gap-4 lg:hidden ml-auto">
+          <div className="flex items-center gap-4 lg:hidden mr-4">
             <button onClick={() => setIsMenuOpen(!isMenuOpen)} className="text-white focus:outline-none">
               {isMenuOpen ? <FaTimes size={20} /> : <FaBars size={20} />}
             </button>
@@ -176,3 +176,4 @@ export default function Navbar() {
     </div>
   );
 }
+
