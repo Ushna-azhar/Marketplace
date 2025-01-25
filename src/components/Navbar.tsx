@@ -139,7 +139,7 @@ export default function Navbar() {
 
       {/* Hamburger Menu */}
       {isMenuOpen && (
-        <div className="lg:hidden fixed inset-0 bg-black bg-opacity-99 z-20 flex flex-col items-center pt-20">
+        <div className="lg:hidden fixed inset-0 bg-black flex flex-col items-center pt-20">
           <Link href="/" className="text-white py-4 text-lg hover:underline">
             Home
           </Link>
