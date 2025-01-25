@@ -71,7 +71,7 @@ export default function Navbar() {
           </div>
 
           {/* Hamburger Icon */}
-          <div className="flex items-center gap-4 lg:hidden mr-6">
+          <div className="flex items-center gap-4 lg:hidden mr-5">
             <button onClick={() => setIsMenuOpen(!isMenuOpen)} className="text-white focus:outline-none">
               {isMenuOpen ? <FaTimes size={20} /> : <FaBars size={20} />}
             </button>
@@ -139,7 +139,7 @@ export default function Navbar() {
 
       {/* Hamburger Menu */}
       {isMenuOpen && (
-        <div className="lg:hidden fixed inset-0 bg-black flex flex-col items-center pt-20">
+        <div className="lg:hidden fixed inset-0 bg-black z-30 flex flex-col items-center pt-20">
           <Link href="/" className="text-white py-4 text-lg hover:underline">
             Home
           </Link>
