@@ -64,7 +64,7 @@ export default function Navbar() {
 
   return (
     <div>
-      <header className="bg-black text-white py-4 shadow-md relative z-30">
+      <header className={`bg-black text-white py-4 shadow-md relative z-20 ${isMenuOpen ? 'opacity-50' : 'opacity-100'}`}>
         <div className="container mx-auto flex justify-between items-center px-4">
           <div className="text-2xl font-bold flex items-center gap-4">
             <div>Shoezshop</div>
@@ -140,27 +140,36 @@ export default function Navbar() {
       {/* Hamburger Menu */}
       {isMenuOpen && (
         <div className="lg:hidden fixed inset-0 bg-black z-30 flex flex-col items-center pt-20">
-          <Link href="/" className="text-white py-4 text-lg hover:underline">
+          {/* Close Button */}
+          <button
+            onClick={() => setIsMenuOpen(false)}
+            className="absolute top-5 right-5 text-white text-2xl focus:outline-none"
+          >
+            <FaTimes />
+          </button>
+
+          {/* Menu Links */}
+          <Link href="/" className="text-white py-4 text-lg hover:underline" onClick={() => setIsMenuOpen(false)}>
             Home
           </Link>
-          <Link href="/product" className="text-white py-4 text-lg hover:underline">
+          <Link href="/product" className="text-white py-4 text-lg hover:underline" onClick={() => setIsMenuOpen(false)}>
             Products
           </Link>
-          <Link href="#about" className="text-white py-4 text-lg hover:underline">
+          <Link href="#about" className="text-white py-4 text-lg hover:underline" onClick={() => setIsMenuOpen(false)}>
             About
           </Link>
-          <Link href="#contact" className="text-white py-4 text-lg hover:underline">
+          <Link href="#contact" className="text-white py-4 text-lg hover:underline" onClick={() => setIsMenuOpen(false)}>
             Contact
           </Link>
 
           <div className="text-white py-4">
-            <Link href="/cart" className="block py-2 text-lg hover:underline">
+            <Link href="/cart" className="block py-2 text-lg hover:underline" onClick={() => setIsMenuOpen(false)}>
               Cart
             </Link>
-            <Link href="/wishlist" className="block py-2 text-lg hover:underline">
+            <Link href="/wishlist" className="block py-2 text-lg hover:underline" onClick={() => setIsMenuOpen(false)}>
               Wishlist
             </Link>
-            <Link href="/register" className="block py-2 text-lg hover:underline">
+            <Link href="/register" className="block py-2 text-lg hover:underline" onClick={() => setIsMenuOpen(false)}>
               Register
             </Link>
           </div>
@@ -190,3 +199,4 @@ export default function Navbar() {
     </div>
   );
 }
+
