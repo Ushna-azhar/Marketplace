@@ -70,14 +70,14 @@ export default function Navbar() {
             <div>Shoezshop</div>
           </div>
 
-          {/* Hamburger Icon moved to the right */}
-          <div className="flex items-center gap-4 lg:hidden mr-4">
+          {/* Hamburger Icon */}
+          <div className="flex items-center gap-4 lg:hidden mr-6">
             <button onClick={() => setIsMenuOpen(!isMenuOpen)} className="text-white focus:outline-none">
               {isMenuOpen ? <FaTimes size={20} /> : <FaBars size={20} />}
             </button>
           </div>
 
-          {/* Centered Navbar Links on Large Screens */}
+          {/* Centered Navbar Links */}
           <div className="hidden lg:flex justify-center flex-grow space-x-6">
             <Link href="/" className="text-white">{translate('home')}</Link>
             <Link href="/product" className="text-white">{translate('products')}</Link>
@@ -121,7 +121,7 @@ export default function Navbar() {
               )}
             </div>
 
-            {/* Desktop Icons - Hidden on Mobile */}
+            {/* Desktop Icons */}
             <div className="hidden lg:flex gap-4">
               <Link href="/register">
                 <FaUserPlus size={20} className="text-white hover:text-gray-300 transition" />
@@ -137,18 +137,32 @@ export default function Navbar() {
         </div>
       </header>
 
-      {/* Hamburger Menu for Mobile */}
+      {/* Hamburger Menu */}
       {isMenuOpen && (
-        <div className="lg:hidden fixed inset-0 bg-black bg-opacity-90 z-20 flex flex-col items-center pt-20">
-          <Link href="/" className="text-white py-4">Home</Link>
-          <Link href="/product" className="text-white py-4">Products</Link>
-          <Link href="#about" className="text-white py-4">About</Link>
-          <Link href="#contact" className="text-white py-4">Contact</Link>
+        <div className="lg:hidden fixed inset-0 bg-black bg-opacity-99 z-20 flex flex-col items-center pt-20">
+          <Link href="/" className="text-white py-4 text-lg hover:underline">
+            Home
+          </Link>
+          <Link href="/product" className="text-white py-4 text-lg hover:underline">
+            Products
+          </Link>
+          <Link href="#about" className="text-white py-4 text-lg hover:underline">
+            About
+          </Link>
+          <Link href="#contact" className="text-white py-4 text-lg hover:underline">
+            Contact
+          </Link>
 
           <div className="text-white py-4">
-            <Link href="/cart" className="block py-2">Cart</Link>
-            <Link href="/wishlist" className="block py-2">Wishlist</Link>
-            <Link href="/register" className="block py-2">Register</Link>
+            <Link href="/cart" className="block py-2 text-lg hover:underline">
+              Cart
+            </Link>
+            <Link href="/wishlist" className="block py-2 text-lg hover:underline">
+              Wishlist
+            </Link>
+            <Link href="/register" className="block py-2 text-lg hover:underline">
+              Register
+            </Link>
           </div>
         </div>
       )}
@@ -176,4 +190,3 @@ export default function Navbar() {
     </div>
   );
 }
-
